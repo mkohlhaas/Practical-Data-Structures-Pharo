@@ -8,6 +8,13 @@ Class {
 }
 
 { #category : #'code-critics' }
+ManifestPracticalDataStructures class >> ruleLiteralArrayContainsSuspiciousTrueFalseOrNilRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#'ManifestPracticalDataStructures class' #ruleNotEliminationRuleV1FalsePositive #true)) #'2023-11-19T20:28:09.141023+01:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestPracticalDataStructures class >> ruleNotEliminationRuleV1FalsePositive [
 
 	<ignoreForCoverage>
