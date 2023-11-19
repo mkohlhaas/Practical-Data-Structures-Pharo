@@ -6,17 +6,3 @@ Class {
 	#superclass : #PackageManifest,
 	#category : #'Practical-Data-Structures-Manifest'
 }
-
-{ #category : #'code-critics' }
-ManifestPracticalDataStructures class >> ruleLiteralArrayContainsSuspiciousTrueFalseOrNilRuleV1FalsePositive [
-
-	<ignoreForCoverage>
-	^ #(#(#(#RGMethodDefinition #(#'ManifestPracticalDataStructures class' #ruleNotEliminationRuleV1FalsePositive #true)) #'2023-11-19T20:28:09.141023+01:00') )
-]
-
-{ #category : #'code-critics' }
-ManifestPracticalDataStructures class >> ruleNotEliminationRuleV1FalsePositive [
-
-	<ignoreForCoverage>
-	^ #(#(#(#RGMethodDefinition #(#PDSStack #isNotEmpty #false)) #'2023-11-19T20:11:39.168014+01:00') )
-]
