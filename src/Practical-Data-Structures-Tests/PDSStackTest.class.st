@@ -19,12 +19,14 @@ PDSStackTest >> testEmptyAfterCreation [
 { #category : #tests }
 PDSStackTest >> testNewFrom [
 
-	| stack |
+	| stack value |
 	stack := PDSStack newFrom: #( 1 2 ).
 	self assert: stack isNotEmpty.
-	self assert: stack pop equals: 2.
+	value := stack pop.
+	self assert: value equals: 2.
 	self assert: stack isNotEmpty.
-	self assert: stack pop equals: 1.
+	value := stack pop.
+	self assert: value equals: 1.
 	self assert: stack isEmpty
 ]
 
@@ -33,15 +35,15 @@ PDSStackTest >> testPrintOn [
 
 	| stack |
 	stack := PDSStack newFrom: #( 1 2 ).
-	self assert: stack fullPrintString equals: 'PDSStack(2 1)'
+	self assert: stack fullPrintString equals: 'a PDSStack(2 1)'
 ]
 
 { #category : #tests }
 PDSStackTest >> testPushPopPeek [
 
 	| stack value |
-	stack := PDSStack.
-	self should: [ stack peek ] raise: StateError.
+	stack := PDSStack new.
+	self should: [ stack peek ] raise: SubscriptOutOfBounds.
 	stack push: 1.
 	self assert: stack peek equals: 1.
 	self assert: stack isNotEmpty.
@@ -52,6 +54,6 @@ PDSStackTest >> testPushPopPeek [
 	self assert: stack peek equals: 1.
 	value := stack pop.
 	self assert: value equals: 1.
-	self should: [ stack peek ] raise: StateError.
-	self should: [ stack pop ] raise: RangeError
+	self should: [ stack peek ] raise: SubscriptOutOfBounds.
+	self should: [ stack pop ] raise: CollectionIsEmpty
 ]
