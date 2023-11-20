@@ -4,7 +4,7 @@ A PDSStackTest is a test class for testing the behavior of PDSStack
 Class {
 	#name : #PDSStackTest,
 	#superclass : #TestCase,
-	#category : #'Practical-Data-Structures-Tests'
+	#category : #'Practical-Data-Structures-Tests-Base'
 }
 
 { #category : #tests }
