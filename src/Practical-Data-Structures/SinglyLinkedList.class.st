@@ -139,7 +139,7 @@ SinglyLinkedList >> removeLast [
 	"empty list"
 	self isEmpty ifTrue: [ ^ self errorEmptyCollection ].
 	"list of one element"
-	head = tail ifTrue: [ ^ self pop ].
+	self isListWithOneElement ifTrue: [ ^ self pop ].
 
 	"at least two elements"
 	currentNode := head.
