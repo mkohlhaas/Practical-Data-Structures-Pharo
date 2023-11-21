@@ -28,8 +28,8 @@ PDSNodeTest >> testNodePrintOnWithMultipleNodes [
 
 	| node |
 	node := PDSNode newWithValue: 5.
-	node append: 6.
-	node append: 7.
+	node add: 6.
+	node add: 7.
 	self assert: node fullPrintString equals: 'a PDSNode(5 -> 6 -> 7)'
 ]
 

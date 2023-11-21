@@ -26,7 +26,7 @@ Class {
 	#instVars : [
 		'storage'
 	],
-	#category : #'Practical-Data-Structures-Base'
+	#category : #'Practical-Data-Structures-Obsolete'
 }
 
 { #category : #'instance creation' }

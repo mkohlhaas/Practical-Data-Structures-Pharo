@@ -1,34 +1,69 @@
+"
+I am a simple Linked List.
+"
 Class {
 	#name : #PDSLinkedList,
-	#superclass : #Object,
+	#superclass : #SequenceableCollection,
 	#instVars : [
 		'head',
-		'tail'
+		'tail',
+		'size'
 	],
-	#category : #'Practical-Data-Structures-Base'
+	#category : #'Practical-Data-Structures-Obsolete'
 }
 
-{ #category : #accessing }
-PDSLinkedList >> append: anObject [
-	"appends at end of linked list"
+{ #category : #adding }
+PDSLinkedList >> add: anObject [
+	"appends at end of linked list, answers anObject"
 
 	| node |
 	self isEmpty ifTrue: [ ^ self push: anObject ].
 	node := PDSNode newWithValue: anObject.
 	tail next: node.
-	tail := tail next
+	tail := tail next.
+	size := size + 1.
+	^ anObject
 ]
 
 { #category : #accessing }
 PDSLinkedList >> at: anIndex [
+	"answers value at anIndex"
 
-	^ self nodeAt: anIndex
+	^ (self findNodeAt: anIndex) value
 ]
 
 { #category : #accessing }
+PDSLinkedList >> at: anIndex put: anObject [
+	"answers stored anOject at anIndex"
+
+	| node |
+	node := self findNodeAt: anIndex.
+	node value: anObject.
+	^ anObject
+]
+
+{ #category : #private }
+PDSLinkedList >> findNodeAt: anIndex [
+
+	| currentIndex currentNode |
+	currentNode := head.
+	currentIndex := 1.
+	[ currentNode notNil & (currentIndex < anIndex) ] whileTrue: [
+		currentNode := currentNode next.
+		currentIndex := currentIndex + 1 ].
+	^ currentNode
+]
+
+{ #category : #private }
 PDSLinkedList >> head [
 
 	^ head
+]
+
+{ #category : #initialization }
+PDSLinkedList >> initialize [
+
+	size := 0
 ]
 
 { #category : #accessing }
@@ -37,7 +72,7 @@ PDSLinkedList >> insertAfter: aNode value: anObject [
 
 	| newNode |
 	tail == aNode ifTrue: [
-		self append: anObject.
+		self add: anObject.
 		^ tail ].
 	newNode := PDSNode newWithValue: anObject.
 	newNode next: aNode next.
@@ -51,27 +86,16 @@ PDSLinkedList >> isEmpty [
 	^ head isNil
 ]
 
-{ #category : #accessing }
-PDSLinkedList >> nodeAt: anIndex [
-
-	| currentNode currentIndex |
-	currentNode := head.
-	currentIndex := 0.
-	[ currentNode notNil & (currentIndex < anIndex) ] whileTrue: [
-		currentNode := currentNode next.
-		currentIndex := currentIndex + 1 ].
-	^ currentNode
-]
-
 { #category : #removing }
 PDSLinkedList >> pop [
 	"removes and answers first node of the linked list or nil if list is empty"
 
 	| currentVal |
-	self isEmpty ifTrue: [ ^ nil ].
+	self isEmpty ifTrue: [ ^ self errorSubscriptBounds: 1 ].
 	currentVal := head value.
 	head := head next.
 	self isEmpty ifTrue: [ tail := nil ].
+	size := size - 1.
 	^ currentVal
 ]
 
@@ -83,7 +107,9 @@ PDSLinkedList >> push: anObject [
 	node := PDSNode newWithValue: anObject.
 	node next: head.
 	head := node.
-	tail ifNil: [ tail := head ]
+	tail ifNil: [ tail := head ].
+	size := size + 1.
+	^ anObject
 ]
 
 { #category : #removing }
@@ -101,6 +127,7 @@ PDSLinkedList >> removeAfter: aNode [
 
 	value := aNode next value.
 	aNode next: aNode next next.
+	size := size - 1.
 	^ value
 ]
 
@@ -119,10 +146,17 @@ PDSLinkedList >> removeLast [
 	currentValue := tail value.
 	tail := currentNode.
 	tail next: nil.
+	size := size - 1.
 	^ currentValue
 ]
 
 { #category : #accessing }
+PDSLinkedList >> size [
+
+	^ size
+]
+
+{ #category : #private }
 PDSLinkedList >> tail [
 
 	^ tail

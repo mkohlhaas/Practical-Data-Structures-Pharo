@@ -1,3 +1,6 @@
+"
+I am a simple Node to be used in PDSLinkedList.
+"
 Class {
 	#name : #PDSNode,
 	#superclass : #Object,
@@ -5,7 +8,7 @@ Class {
 		'value',
 		'next'
 	],
-	#category : #'Practical-Data-Structures-Base'
+	#category : #'Practical-Data-Structures-Obsolete'
 }
 
 { #category : #'instance creation' }
