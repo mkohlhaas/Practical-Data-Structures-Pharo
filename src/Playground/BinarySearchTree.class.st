@@ -23,7 +23,7 @@ BinarySearchTree >> includes: anObject [
 ]
 
 { #category : #accessing }
-BinarySearchTree >> insert: aComparableObject [
+BinarySearchTree >> insert: anObject [
 
 	self subclassResponsibility
 ]

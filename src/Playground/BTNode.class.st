@@ -57,9 +57,9 @@ BTNode >> left [
 ]
 
 { #category : #accessing }
-BTNode >> left: aBinaryTree [
+BTNode >> left: aTree [
 
-	left := aBinaryTree
+	left := aTree
 ]
 
 { #category : #accessing }
@@ -69,9 +69,9 @@ BTNode >> right [
 ]
 
 { #category : #accessing }
-BTNode >> right: aBinaryTree [
+BTNode >> right: aTree [
 
-	right := aBinaryTree
+	right := aTree
 ]
 
 { #category : #traversing }
