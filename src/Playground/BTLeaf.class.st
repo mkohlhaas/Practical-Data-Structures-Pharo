@@ -25,6 +25,12 @@ BTLeaf class >> collect: aBlock [
 ]
 
 { #category : #testing }
+BTLeaf class >> hasNoChildren [
+
+	^ false
+]
+
+{ #category : #testing }
 BTLeaf class >> includes: anObject [
 
 	^ false
@@ -34,6 +40,18 @@ BTLeaf class >> includes: anObject [
 BTLeaf class >> insert: anObject [
 
 	^ BTNode val: anObject left: BTLeaf right: BTLeaf
+]
+
+{ #category : #accessing }
+BTLeaf class >> min [
+
+	^ nil
+]
+
+{ #category : #removing }
+BTLeaf class >> remove: anObject [
+
+	^ self
 ]
 
 { #category : #traversing }

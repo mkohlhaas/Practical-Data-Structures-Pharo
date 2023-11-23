@@ -32,6 +32,12 @@ BTNode >> collect: aBlock [
 ]
 
 { #category : #testing }
+BTNode >> hasNoChildren [
+
+	^ left == BTLeaf & (right == BTLeaf)
+]
+
+{ #category : #testing }
 BTNode >> includes: anObject [
 
 	anObject = val ifTrue: [ ^ true ].
@@ -63,6 +69,34 @@ BTNode >> left [
 BTNode >> left: aTree [
 
 	left := aTree
+]
+
+{ #category : #accessing }
+BTNode >> min [
+
+	| subTreeMin |
+	subTreeMin := self left min.
+	subTreeMin ifNil: [ ^ self val ] ifNotNil: [ ^ subTreeMin ]
+]
+
+{ #category : #removing }
+BTNode >> remove: anObject [
+
+	| minValue |
+	anObject = val ifTrue: [ "no children"
+		self hasNoChildren ifTrue: [ ^ BTLeaf ].
+		"only left child"
+		right == BTLeaf ifTrue: [ ^ left ].
+		"only right child"
+		left == BTLeaf ifTrue: [ ^ right ].
+		"two children"
+		minValue := self right min.
+		"in-place changes"
+		self val: minValue.
+		self right: (right remove: minValue) ].
+	anObject < val
+		ifTrue: [ ^ self left: (left remove: anObject) ]
+		ifFalse: [ ^ self right: (right remove: anObject) ]
 ]
 
 { #category : #accessing }

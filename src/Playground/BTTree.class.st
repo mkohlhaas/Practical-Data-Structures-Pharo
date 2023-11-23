@@ -25,7 +25,7 @@ BTTree class >> val: aValue left: leftTree right: rightTree [
 { #category : #testing }
 BTTree >> includes: anObject [
 
-	^ tree includes: anObject
+	^ self tree includes: anObject
 ]
 
 { #category : #accessing }
@@ -34,22 +34,28 @@ BTTree >> insert: anObject [
 	self tree: (tree insert: anObject)
 ]
 
+{ #category : #removing }
+BTTree >> remove: anObject [
+
+	self tree remove: anObject
+]
+
 { #category : #traversing }
 BTTree >> traverseInOrder: aBlock [
 
-	tree traverseInOrder: aBlock
+	self tree traverseInOrder: aBlock
 ]
 
 { #category : #traversing }
 BTTree >> traversePostOrder: aBlock [
 
-	tree traversePostOrder: aBlock
+	self tree traversePostOrder: aBlock
 ]
 
 { #category : #traversing }
 BTTree >> traversePreOrder: aBlock [
 
-	tree traversePreOrder: aBlock
+	self tree traversePreOrder: aBlock
 ]
 
 { #category : #accessing }
