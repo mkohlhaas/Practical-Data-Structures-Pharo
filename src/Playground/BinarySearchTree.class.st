@@ -1,3 +1,6 @@
+"
+I am an abstract class for a Binary Search Tree.
+"
 Class {
 	#name : #BinarySearchTree,
 	#superclass : #Object,

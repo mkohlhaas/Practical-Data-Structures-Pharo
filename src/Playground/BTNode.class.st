@@ -1,3 +1,6 @@
+"
+I am a node in a tree structure.
+"
 Class {
 	#name : #BTNode,
 	#superclass : #BinarySearchTree,

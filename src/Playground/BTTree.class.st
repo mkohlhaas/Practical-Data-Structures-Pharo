@@ -1,3 +1,6 @@
+"
+I am a Binary Tree.
+"
 Class {
 	#name : #BTTree,
 	#superclass : #BinarySearchTree,

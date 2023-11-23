@@ -1,3 +1,17 @@
+"
+I am a marker class.
+I mark terminal node in a tree structure.
+
+Class side is implemented so you can write:
+```language=Pharo
+BTTree val: 5 left: BTLeaf right: BTLeaf
+```
+insted of:
+```language=Pharo
+BTTree val: 5 left: BTLeaf new right: BTLeaf new
+```
+
+"
 Class {
 	#name : #BTLeaf,
 	#superclass : #BinarySearchTree,
