@@ -15,6 +15,13 @@ ManifestPlayground class >> ruleGuardingClauseRuleV1FalsePositive [
 ]
 
 { #category : #'code-critics' }
+ManifestPlayground class >> ruleLiteralArrayContainsSuspiciousTrueFalseOrNilRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMetaclassDefinition #(#'ManifestPlayground class' #ManifestPlayground)) #'2023-11-24T18:57:16.302093+01:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestPlayground class >> ruleReGuardClauseRuleV1FalsePositive [
 
 	<ignoreForCoverage>
