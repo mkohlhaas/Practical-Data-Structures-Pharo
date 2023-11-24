@@ -119,7 +119,7 @@ AVLNode >> left: aTree [
 	left := aTree
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 AVLNode >> min [
 
 	| subTreeMin |
@@ -177,7 +177,7 @@ AVLNode >> rotateLeft [
 	^ b
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 AVLNode >> rotateLeftRight [
 
 	left := left rotateLeft.
@@ -199,14 +199,14 @@ AVLNode >> rotateRight [
 	^ a
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 AVLNode >> rotateRightLeft [
 
 	right := right rotateRight.
 	^ self rotateLeft
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 AVLNode >> rotateWith: anObject [
 
 	| bf |
