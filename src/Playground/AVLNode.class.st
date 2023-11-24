@@ -89,23 +89,10 @@ AVLNode >> initialize [
 { #category : #accessing }
 AVLNode >> insert: anObject [
 
-	| bf |
 	anObject < val
 		ifTrue: [ self left: (self left insert: anObject) ]
 		ifFalse: [ self right: (self right insert: anObject) ].
-	self updateHeight.
-
-	bf := self balanceFactor.
-	(bf > 1 and: [ anObject < self left val ]) ifTrue: [
-		^ self rotateRight ].
-	(bf < -1 and: [ anObject > self right val ]) ifTrue: [
-		^ self rotateLeft ].
-	(bf > 1 and: [ anObject > self left val ]) ifTrue: [
-		self left: self left rotateLeft.
-		^ self rotateRight ].
-	(bf < -1 and: [ anObject < self right val ]) ifTrue: [
-		self right: self right rotateRight.
-		^ self rotateLeft ]
+	^ self rotateWith: anObject
 ]
 
 { #category : #accessing }
@@ -145,7 +132,8 @@ AVLNode >> remove: anObject [
 		self right: (right remove: minValue) ].
 	anObject < val
 		ifTrue: [ ^ self left: (left remove: anObject) ]
-		ifFalse: [ ^ self right: (right remove: anObject) ]
+		ifFalse: [ ^ self right: (right remove: anObject) ].
+	self rotateWith: anObject
 ]
 
 { #category : #removing }
@@ -182,6 +170,13 @@ AVLNode >> rotateLeft [
 	^ b
 ]
 
+{ #category : #accessing }
+AVLNode >> rotateLeftRight [
+
+	self left: self left rotateLeft.
+	^ self rotateRight
+]
+
 { #category : #private }
 AVLNode >> rotateRight [
 
@@ -196,6 +191,29 @@ AVLNode >> rotateRight [
 	a updateHeight.
 
 	^ a
+]
+
+{ #category : #accessing }
+AVLNode >> rotateRightLeft [
+
+	self right: self right rotateRight.
+	^ self rotateLeft
+]
+
+{ #category : #accessing }
+AVLNode >> rotateWith: anObject [
+
+	| bf |
+	self updateHeight.
+	bf := self balanceFactor.
+	(bf > 1 and: [ anObject < self left val ]) ifTrue: [
+		^ self rotateRight ].
+	(bf < -1 and: [ anObject > self right val ]) ifTrue: [
+		^ self rotateLeft ].
+	(bf > 1 and: [ anObject > self left val ]) ifTrue: [
+		^ self rotateLeftRight ].
+	(bf < -1 and: [ anObject < self right val ]) ifTrue: [
+		^ self rotateRightLeft ]
 ]
 
 { #category : #traversing }

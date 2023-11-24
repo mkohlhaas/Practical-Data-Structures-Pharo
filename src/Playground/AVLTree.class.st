@@ -29,6 +29,12 @@ AVLTree >> do: aBlock [
 	self traverseInOrder: aBlock
 ]
 
+{ #category : #accessing }
+AVLTree >> height [
+
+	^ tree height
+]
+
 { #category : #testing }
 AVLTree >> includes: anObject [
 
