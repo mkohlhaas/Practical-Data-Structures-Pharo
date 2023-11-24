@@ -2,8 +2,8 @@
 I am a node in a tree structure.
 "
 Class {
-	#name : #BTNode,
-	#superclass : #BinarySearchTree,
+	#name : #AVLNode,
+	#superclass : #Collection,
 	#instVars : [
 		'left',
 		'right',
@@ -13,32 +13,44 @@ Class {
 }
 
 { #category : #'instance creation' }
-BTNode class >> val: aValue left: leftTree right: rightTree [
+AVLNode class >> with: anObject [
+	"Answer an instance of me containing anObject."
 
-	^ self new
-		  val: aValue;
-		  left: leftTree;
-		  right: rightTree
+	^ self empty
+		  val: anObject;
+		  yourself
+]
+
+{ #category : #adding }
+AVLNode >> add: anObject [
+
+	self insert: anObject.
+	^ anObject
 ]
 
 { #category : #enumerating }
-BTNode >> collect: aBlock [
+AVLNode >> collect: aBlock [
 
 	^ self class
-		  val: (aBlock value: self val)
-		  left: (left collect: aBlock)
+		  with: (aBlock value: self val);
+		  left: (left collect: aBlock);
 		  right: (right collect: aBlock)
+]
 
+{ #category : #enumerating }
+AVLNode >> do: aBlock [
+
+	self traverseInOrder: aBlock
 ]
 
 { #category : #testing }
-BTNode >> hasNoChildren [
+AVLNode >> hasNoChildren [
 
-	^ left == BTLeaf & (right == BTLeaf)
+	^ left == AVLLeaf & (right == AVLLeaf)
 ]
 
 { #category : #testing }
-BTNode >> includes: anObject [
+AVLNode >> includes: anObject [
 
 	anObject = val ifTrue: [ ^ true ].
 	anObject < val
@@ -46,13 +58,16 @@ BTNode >> includes: anObject [
 		ifFalse: [ ^ right includes: anObject ]
 ]
 
+{ #category : #initialization }
+AVLNode >> initialize [
+
+	super initialize.
+	left := AVLLeaf.
+	right := AVLLeaf
+]
+
 { #category : #accessing }
-BTNode >> insert: anObject [
-	"anObject < val
-		ifTrue: [
-		^ self class val: val left: (left insert: anObject) right: right ]
-		ifFalse: [
-		^ self class val: val left: left right: (right insert: anObject) ]"
+AVLNode >> insert: anObject [
 
 	anObject < val
 		ifTrue: [ ^ self left: (self left insert: anObject) ]
@@ -60,19 +75,19 @@ BTNode >> insert: anObject [
 ]
 
 { #category : #accessing }
-BTNode >> left [
+AVLNode >> left [
 
 	^ left
 ]
 
 { #category : #accessing }
-BTNode >> left: aTree [
+AVLNode >> left: aTree [
 
 	left := aTree
 ]
 
 { #category : #accessing }
-BTNode >> min [
+AVLNode >> min [
 
 	| subTreeMin |
 	subTreeMin := self left min.
@@ -80,15 +95,15 @@ BTNode >> min [
 ]
 
 { #category : #removing }
-BTNode >> remove: anObject [
+AVLNode >> remove: anObject [
 
 	| minValue |
 	anObject = val ifTrue: [ "no children"
-		self hasNoChildren ifTrue: [ ^ BTLeaf ].
+		self hasNoChildren ifTrue: [ ^ AVLLeaf ].
 		"only left child"
-		right == BTLeaf ifTrue: [ ^ left ].
+		right == AVLLeaf ifTrue: [ ^ left ].
 		"only right child"
-		left == BTLeaf ifTrue: [ ^ right ].
+		left == AVLLeaf ifTrue: [ ^ right ].
 		"two children"
 		minValue := self right min.
 		"in-place changes"
@@ -99,20 +114,26 @@ BTNode >> remove: anObject [
 		ifFalse: [ ^ self right: (right remove: anObject) ]
 ]
 
+{ #category : #removing }
+AVLNode >> remove: oldObject ifAbsent: anExceptionBlock [
+
+	self shouldNotImplement
+]
+
 { #category : #accessing }
-BTNode >> right [
+AVLNode >> right [
 
 	^ right
 ]
 
 { #category : #accessing }
-BTNode >> right: aTree [
+AVLNode >> right: aTree [
 
 	right := aTree
 ]
 
 { #category : #traversing }
-BTNode >> traverseInOrder: aBlock [
+AVLNode >> traverseInOrder: aBlock [
 
 	left traverseInOrder: aBlock.
 	aBlock value: val.
@@ -120,7 +141,7 @@ BTNode >> traverseInOrder: aBlock [
 ]
 
 { #category : #traversing }
-BTNode >> traversePostOrder: aBlock [
+AVLNode >> traversePostOrder: aBlock [
 
 	left traversePostOrder: aBlock.
 	right traversePostOrder: aBlock.
@@ -128,7 +149,7 @@ BTNode >> traversePostOrder: aBlock [
 ]
 
 { #category : #traversing }
-BTNode >> traversePreOrder: aBlock [
+AVLNode >> traversePreOrder: aBlock [
 
 	aBlock value: val.
 	left traversePreOrder: aBlock.
@@ -136,13 +157,13 @@ BTNode >> traversePreOrder: aBlock [
 ]
 
 { #category : #accessing }
-BTNode >> val [
+AVLNode >> val [
 
 	^ val
 ]
 
 { #category : #accessing }
-BTNode >> val: anObject [
+AVLNode >> val: anObject [
 
 	val := anObject
 ]

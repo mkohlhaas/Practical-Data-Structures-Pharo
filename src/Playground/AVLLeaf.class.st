@@ -13,61 +13,61 @@ BTTree val: 5 left: BTLeaf new right: BTLeaf new
 
 "
 Class {
-	#name : #BTLeaf,
-	#superclass : #BinarySearchTree,
+	#name : #AVLLeaf,
+	#superclass : #Collection,
 	#category : #Playground
 }
 
 { #category : #enumerating }
-BTLeaf class >> collect: aBlock [
+AVLLeaf class >> collect: aBlock [
 
 	^ self
 ]
 
 { #category : #testing }
-BTLeaf class >> hasNoChildren [
+AVLLeaf class >> hasNoChildren [
 
 	^ false
 ]
 
 { #category : #testing }
-BTLeaf class >> includes: anObject [
+AVLLeaf class >> includes: anObject [
 
 	^ false
 ]
 
 { #category : #accessing }
-BTLeaf class >> insert: anObject [
+AVLLeaf class >> insert: anObject [
 
-	^ BTNode val: anObject left: BTLeaf right: BTLeaf
+	^ AVLNode with: anObject
 ]
 
 { #category : #accessing }
-BTLeaf class >> min [
+AVLLeaf class >> min [
 
 	^ nil
 ]
 
 { #category : #removing }
-BTLeaf class >> remove: anObject [
+AVLLeaf class >> remove: anObject [
 
 	^ self
 ]
 
 { #category : #traversing }
-BTLeaf class >> traverseInOrder: aBlock [
+AVLLeaf class >> traverseInOrder: aBlock [
 
 	
 ]
 
 { #category : #traversing }
-BTLeaf class >> traversePostOrder: aBlock [
+AVLLeaf class >> traversePostOrder: aBlock [
 
 	
 ]
 
 { #category : #traversing }
-BTLeaf class >> traversePreOrder: aBlock [
+AVLLeaf class >> traversePreOrder: aBlock [
 
 	
 ]
