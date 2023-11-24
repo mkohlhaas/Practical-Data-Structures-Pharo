@@ -32,7 +32,7 @@ AVLNode >> add: anObject [
 { #category : #private }
 AVLNode >> balanceFactor [
 
-	^ self left height - self right height
+	^ left height - right height
 ]
 
 { #category : #enumerating }
@@ -102,8 +102,8 @@ AVLNode >> initialize [
 AVLNode >> insert: anObject [
 
 	anObject < contents
-		ifTrue: [ self left: (self left insert: anObject) ]
-		ifFalse: [ self right: (self right insert: anObject) ].
+		ifTrue: [ left := left insert: anObject ]
+		ifFalse: [ right := right insert: anObject ].
 	^ self rotateWith: anObject
 ]
 
@@ -123,7 +123,7 @@ AVLNode >> left: aTree [
 AVLNode >> min [
 
 	| subTreeMin |
-	subTreeMin := self left min.
+	subTreeMin := left min.
 	subTreeMin ifNil: [ ^ self contents ] ifNotNil: [ ^ subTreeMin ]
 ]
 
@@ -135,9 +135,9 @@ AVLNode >> remove: anObject [
 		self hasNoChildren ifTrue: [ ^ AVLLeaf ]. "no children"
 		right == AVLLeaf ifTrue: [ ^ left ]. "only right child"
 		left == AVLLeaf ifTrue: [ ^ right ]. "only left child"
-		minValue := self right min. "two children"
+		minValue := right min. "two children"
 		self contents: minValue.
-		self right: (right remove: minValue) ].
+		right := right remove: minValue ].
 	anObject < contents
 		ifTrue: [ ^ self left: (left remove: anObject) ]
 		ifFalse: [ ^ self right: (right remove: anObject) ].
@@ -180,7 +180,7 @@ AVLNode >> rotateLeft [
 { #category : #accessing }
 AVLNode >> rotateLeftRight [
 
-	self left: self left rotateLeft.
+	left := left rotateLeft.
 	^ self rotateRight
 ]
 
@@ -202,7 +202,7 @@ AVLNode >> rotateRight [
 { #category : #accessing }
 AVLNode >> rotateRightLeft [
 
-	self right: self right rotateRight.
+	right := right rotateRight.
 	^ self rotateLeft
 ]
 
@@ -212,13 +212,13 @@ AVLNode >> rotateWith: anObject [
 	| bf |
 	self updateHeight.
 	bf := self balanceFactor.
-	(bf > 1 and: [ anObject < self left contents ]) ifTrue: [
+	(bf > 1 and: [ anObject < left contents ]) ifTrue: [
 		^ self rotateRight ].
-	(bf < -1 and: [ anObject > self right contents ]) ifTrue: [
+	(bf < -1 and: [ anObject > right contents ]) ifTrue: [
 		^ self rotateLeft ].
-	(bf > 1 and: [ anObject > self left contents ]) ifTrue: [
+	(bf > 1 and: [ anObject > left contents ]) ifTrue: [
 		^ self rotateLeftRight ].
-	(bf < -1 and: [ anObject < self right contents ]) ifTrue: [
+	(bf < -1 and: [ anObject < right contents ]) ifTrue: [
 		^ self rotateRightLeft ]
 ]
 
@@ -249,5 +249,5 @@ AVLNode >> traversePreOrder: aBlock [
 { #category : #private }
 AVLNode >> updateHeight [
 
-	self height: (self left height max: self right height) + 1
+	height := (left height max: right height) + 1
 ]
