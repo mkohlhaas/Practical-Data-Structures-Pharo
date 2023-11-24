@@ -18,6 +18,12 @@ Class {
 	#category : #Playground
 }
 
+{ #category : #private }
+AVLLeaf class >> balancefactor [
+
+	^ 0
+]
+
 { #category : #enumerating }
 AVLLeaf class >> collect: aBlock [
 
@@ -28,6 +34,12 @@ AVLLeaf class >> collect: aBlock [
 AVLLeaf class >> hasNoChildren [
 
 	^ false
+]
+
+{ #category : #accessing }
+AVLLeaf class >> height [
+
+	^ 0
 ]
 
 { #category : #testing }

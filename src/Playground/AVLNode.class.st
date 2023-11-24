@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'left',
 		'right',
-		'val'
+		'val',
+		'height'
 	],
 	#category : #Playground
 }
@@ -26,6 +27,12 @@ AVLNode >> add: anObject [
 
 	self insert: anObject.
 	^ anObject
+]
+
+{ #category : #private }
+AVLNode >> balanceFactor [
+
+	^ self left height - self right height
 ]
 
 { #category : #enumerating }
@@ -49,6 +56,18 @@ AVLNode >> hasNoChildren [
 	^ left == AVLLeaf & (right == AVLLeaf)
 ]
 
+{ #category : #accessing }
+AVLNode >> height [
+
+	^ height
+]
+
+{ #category : #accessing }
+AVLNode >> height: anObject [
+
+	height := anObject
+]
+
 { #category : #testing }
 AVLNode >> includes: anObject [
 
@@ -63,15 +82,30 @@ AVLNode >> initialize [
 
 	super initialize.
 	left := AVLLeaf.
-	right := AVLLeaf
+	right := AVLLeaf.
+	height := 1
 ]
 
 { #category : #accessing }
 AVLNode >> insert: anObject [
 
+	| bf |
 	anObject < val
-		ifTrue: [ ^ self left: (self left insert: anObject) ]
-		ifFalse: [ ^ self right: (self right insert: anObject) ]
+		ifTrue: [ self left: (self left insert: anObject) ]
+		ifFalse: [ self right: (self right insert: anObject) ].
+	self updateHeight.
+
+	bf := self balanceFactor.
+	(bf > 1 and: [ anObject < self left val ]) ifTrue: [
+		^ self rotateRight ].
+	(bf < -1 and: [ anObject > self right val ]) ifTrue: [
+		^ self rotateLeft ].
+	(bf > 1 and: [ anObject > self left val ]) ifTrue: [
+		self left: self left rotateLeft.
+		^ self rotateRight ].
+	(bf < -1 and: [ anObject < self right val ]) ifTrue: [
+		self right: self right rotateRight.
+		^ self rotateLeft ]
 ]
 
 { #category : #accessing }
@@ -132,6 +166,38 @@ AVLNode >> right: aTree [
 	right := aTree
 ]
 
+{ #category : #private }
+AVLNode >> rotateLeft [
+
+	| b y |
+	b := self right.
+	y := b left.
+	self right: y.
+	b left: self.
+
+
+	self updateHeight.
+	b updateHeight.
+
+	^ b
+]
+
+{ #category : #private }
+AVLNode >> rotateRight [
+
+	| a y |
+	a := self left.
+	y := a right.
+	self left: y.
+	a right: self.
+
+
+	self updateHeight.
+	a updateHeight.
+
+	^ a
+]
+
 { #category : #traversing }
 AVLNode >> traverseInOrder: aBlock [
 
@@ -154,6 +220,12 @@ AVLNode >> traversePreOrder: aBlock [
 	aBlock value: val.
 	left traversePreOrder: aBlock.
 	right traversePreOrder: aBlock
+]
+
+{ #category : #private }
+AVLNode >> updateHeight [
+
+	self height: (self left height max: self right height) + 1
 ]
 
 { #category : #accessing }

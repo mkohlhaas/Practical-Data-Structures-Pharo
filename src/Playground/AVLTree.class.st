@@ -20,8 +20,7 @@ AVLTree class >> new: aSize [
 AVLTree >> add: anObject [
 	"^ self insert: anObject"
 
-	self tree: (tree insert: anObject).
-	^ anObject
+	^ self insert: anObject
 ]
 
 { #category : #enumerating }
@@ -46,7 +45,8 @@ AVLTree >> initialize [
 { #category : #accessing }
 AVLTree >> insert: anObject [
 
-	^ self tree: (tree insert: anObject)
+	self tree: (tree insert: anObject).	
+	^ anObject
 ]
 
 { #category : #removing }
