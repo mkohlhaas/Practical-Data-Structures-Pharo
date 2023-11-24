@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'left',
 		'right',
-		'val',
+		'contents',
 		'height'
 	],
 	#category : #Playground
@@ -18,7 +18,7 @@ AVLNode class >> with: anObject [
 	"Answer an instance of me containing anObject."
 
 	^ self empty
-		  val: anObject;
+		  contents: anObject;
 		  yourself
 ]
 
@@ -39,9 +39,21 @@ AVLNode >> balanceFactor [
 AVLNode >> collect: aBlock [
 
 	^ self class
-		  with: (aBlock value: self val);
+		  with: (aBlock value: self contents);
 		  left: (left collect: aBlock);
 		  right: (right collect: aBlock)
+]
+
+{ #category : #accessing }
+AVLNode >> contents [
+
+	^ contents
+]
+
+{ #category : #accessing }
+AVLNode >> contents: anObject [
+
+	contents := anObject
 ]
 
 { #category : #enumerating }
@@ -71,8 +83,8 @@ AVLNode >> height: anObject [
 { #category : #testing }
 AVLNode >> includes: anObject [
 
-	anObject = val ifTrue: [ ^ true ].
-	anObject < val
+	anObject = contents ifTrue: [ ^ true ].
+	anObject < contents
 		ifTrue: [ ^ left includes: anObject ]
 		ifFalse: [ ^ right includes: anObject ]
 ]
@@ -89,7 +101,7 @@ AVLNode >> initialize [
 { #category : #accessing }
 AVLNode >> insert: anObject [
 
-	anObject < val
+	anObject < contents
 		ifTrue: [ self left: (self left insert: anObject) ]
 		ifFalse: [ self right: (self right insert: anObject) ].
 	^ self rotateWith: anObject
@@ -112,14 +124,14 @@ AVLNode >> min [
 
 	| subTreeMin |
 	subTreeMin := self left min.
-	subTreeMin ifNil: [ ^ self val ] ifNotNil: [ ^ subTreeMin ]
+	subTreeMin ifNil: [ ^ self contents ] ifNotNil: [ ^ subTreeMin ]
 ]
 
 { #category : #removing }
 AVLNode >> remove: anObject [
 
 	| minValue |
-	anObject = val ifTrue: [ "no children"
+	anObject = contents ifTrue: [ "no children"
 		self hasNoChildren ifTrue: [ ^ AVLLeaf ].
 		"only left child"
 		right == AVLLeaf ifTrue: [ ^ left ].
@@ -128,9 +140,9 @@ AVLNode >> remove: anObject [
 		"two children"
 		minValue := self right min.
 		"in-place changes"
-		self val: minValue.
+		self contents: minValue.
 		self right: (right remove: minValue) ].
-	anObject < val
+	anObject < contents
 		ifTrue: [ ^ self left: (left remove: anObject) ]
 		ifFalse: [ ^ self right: (right remove: anObject) ].
 	self rotateWith: anObject
@@ -206,13 +218,13 @@ AVLNode >> rotateWith: anObject [
 	| bf |
 	self updateHeight.
 	bf := self balanceFactor.
-	(bf > 1 and: [ anObject < self left val ]) ifTrue: [
+	(bf > 1 and: [ anObject < self left contents ]) ifTrue: [
 		^ self rotateRight ].
-	(bf < -1 and: [ anObject > self right val ]) ifTrue: [
+	(bf < -1 and: [ anObject > self right contents ]) ifTrue: [
 		^ self rotateLeft ].
-	(bf > 1 and: [ anObject > self left val ]) ifTrue: [
+	(bf > 1 and: [ anObject > self left contents ]) ifTrue: [
 		^ self rotateLeftRight ].
-	(bf < -1 and: [ anObject < self right val ]) ifTrue: [
+	(bf < -1 and: [ anObject < self right contents ]) ifTrue: [
 		^ self rotateRightLeft ]
 ]
 
@@ -220,7 +232,7 @@ AVLNode >> rotateWith: anObject [
 AVLNode >> traverseInOrder: aBlock [
 
 	left traverseInOrder: aBlock.
-	aBlock value: val.
+	aBlock value: contents.
 	right traverseInOrder: aBlock
 ]
 
@@ -229,13 +241,13 @@ AVLNode >> traversePostOrder: aBlock [
 
 	left traversePostOrder: aBlock.
 	right traversePostOrder: aBlock.
-	aBlock value: val
+	aBlock value: contents
 ]
 
 { #category : #traversing }
 AVLNode >> traversePreOrder: aBlock [
 
-	aBlock value: val.
+	aBlock value: contents.
 	left traversePreOrder: aBlock.
 	right traversePreOrder: aBlock
 ]
@@ -244,16 +256,4 @@ AVLNode >> traversePreOrder: aBlock [
 AVLNode >> updateHeight [
 
 	self height: (self left height max: self right height) + 1
-]
-
-{ #category : #accessing }
-AVLNode >> val [
-
-	^ val
-]
-
-{ #category : #accessing }
-AVLNode >> val: anObject [
-
-	val := anObject
 ]
