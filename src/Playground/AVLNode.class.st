@@ -131,15 +131,11 @@ AVLNode >> min [
 AVLNode >> remove: anObject [
 
 	| minValue |
-	anObject = contents ifTrue: [ "no children"
-		self hasNoChildren ifTrue: [ ^ AVLLeaf ].
-		"only left child"
-		right == AVLLeaf ifTrue: [ ^ left ].
-		"only right child"
-		left == AVLLeaf ifTrue: [ ^ right ].
-		"two children"
-		minValue := self right min.
-		"in-place changes"
+	anObject = contents ifTrue: [
+		self hasNoChildren ifTrue: [ ^ AVLLeaf ]. "no children"
+		right == AVLLeaf ifTrue: [ ^ left ]. "only right child"
+		left == AVLLeaf ifTrue: [ ^ right ]. "only left child"
+		minValue := self right min. "two children"
 		self contents: minValue.
 		self right: (right remove: minValue) ].
 	anObject < contents
@@ -175,7 +171,6 @@ AVLNode >> rotateLeft [
 	self right: y.
 	b left: self.
 
-
 	self updateHeight.
 	b updateHeight.
 
@@ -197,7 +192,6 @@ AVLNode >> rotateRight [
 	y := a right.
 	self left: y.
 	a right: self.
-
 
 	self updateHeight.
 	a updateHeight.
