@@ -14,7 +14,7 @@ BTTree val: 5 left: BTLeaf new right: BTLeaf new
 "
 Class {
 	#name : #AVLLeaf,
-	#superclass : #Collection,
+	#superclass : #Object,
 	#category : #Playground
 }
 
