@@ -1,7 +1,5 @@
 "
 I am a simple Queue.
-
-Uses SinglyLinkedList internally.
 "
 Class {
 	#name : #Queue,
@@ -14,15 +12,14 @@ Class {
 
 { #category : #'instance creation' }
 Queue class >> new: size [
-	"Queues grows dynamically."
 
 	^ self new
 ]
 
 { #category : #adding }
-Queue >> add: newObject [
+Queue >> add: anObject [
 
-	^ list add: newObject
+	^ list add: anObject
 ]
 
 { #category : #actions }

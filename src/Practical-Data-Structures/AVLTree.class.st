@@ -1,5 +1,5 @@
 "
-I am a AVL Tree.
+I am an AVL Tree.
 "
 Class {
 	#name : #AVLTree,
@@ -18,7 +18,6 @@ AVLTree class >> new: aSize [
 
 { #category : #adding }
 AVLTree >> add: anObject [
-	"^ self insert: anObject"
 
 	^ self insert: anObject
 ]

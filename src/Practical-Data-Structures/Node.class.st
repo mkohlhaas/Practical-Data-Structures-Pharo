@@ -1,15 +1,21 @@
 "
-I am a simple Node used in SinglyLinkedList.
+I am a simple Node in a SinglyLinkedList.
 "
 Class {
 	#name : #Node,
 	#superclass : #Object,
 	#instVars : [
 		'next',
-		'value'
+		'element'
 	],
 	#category : #'Practical-Data-Structures-Private'
 }
+
+{ #category : #accessing }
+Node >> element [
+
+	^ element
+]
 
 { #category : #accessing }
 Node >> next [
@@ -28,18 +34,12 @@ Node >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream nextPut: $(.
-	self value printOn: aStream.
+	self element printOn: aStream.
 	aStream nextPut: $)
-]
-
-{ #category : #accessing }
-Node >> value [
-
-	^ value
 ]
 
 { #category : #accessing }
 Node >> value: anObject [
 
-	value := anObject
+	element := anObject
 ]

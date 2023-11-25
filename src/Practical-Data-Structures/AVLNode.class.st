@@ -15,7 +15,6 @@ Class {
 
 { #category : #'instance creation' }
 AVLNode class >> with: anObject [
-	"Answer an instance of me containing anObject."
 
 	^ self empty
 		  element: anObject;
@@ -170,10 +169,8 @@ AVLNode >> rotateLeft [
 	y := b left.
 	self right: y.
 	b left: self.
-
 	self updateHeight.
 	b updateHeight.
-
 	^ b
 ]
 
@@ -192,10 +189,8 @@ AVLNode >> rotateRight [
 	y := a right.
 	self left: y.
 	a right: self.
-
 	self updateHeight.
 	a updateHeight.
-
 	^ a
 ]
 

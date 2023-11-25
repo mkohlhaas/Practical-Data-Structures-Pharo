@@ -1,16 +1,5 @@
 "
-I am a marker class.
-I mark terminal node in an AVL Tree.
-
-Class side is implemented so you can write:
-```language=Pharo
-BTTree val: 5 left: BTLeaf right: BTLeaf
-```
-insted of:
-```language=Pharo
-BTTree val: 5 left: BTLeaf new right: BTLeaf new
-```
-
+I am a terminal node in an AVL Tree.
 "
 Class {
 	#name : #AVLLeaf,

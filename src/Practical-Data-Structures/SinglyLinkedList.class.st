@@ -14,14 +14,12 @@ Class {
 
 { #category : #'instance creation' }
 SinglyLinkedList class >> new: size [
-	"SinglyLinkedList grows dynamically."
 
 	^ self new
 ]
 
 { #category : #adding }
 SinglyLinkedList >> add: anObject [
-	"Appends anObject to end of the list. Answers newObject."
 
 	| node |
 	self isEmpty ifTrue: [ ^ self push: anObject ].
@@ -34,12 +32,11 @@ SinglyLinkedList >> add: anObject [
 
 { #category : #enumerating }
 SinglyLinkedList >> do: aBlock [
-	"Executes aBlock for each element of the list."
 
 	| node |
 	node := head.
 	[ node ] whileNotNil: [
-		aBlock value: node value.
+		aBlock value: node element.
 		node := node next ]
 ]
 
@@ -75,11 +72,10 @@ SinglyLinkedList >> isListWithOneElement [
 
 { #category : #removing }
 SinglyLinkedList >> pop [
-	"Removes first node of the linked list and answers its value.Throws error if list is empty."
 
 	| currentVal |
 	self isEmpty ifTrue: [ ^ self errorSubscriptBounds: 1 ].
-	currentVal := head value.
+	currentVal := head element.
 	head := head next.
 	self isEmpty ifTrue: [ tail := nil ].
 	size := size - 1.
@@ -88,7 +84,6 @@ SinglyLinkedList >> pop [
 
 { #category : #adding }
 SinglyLinkedList >> push: anObject [
-	"Inserts anObject at beginning of linked list. Answers anObject."
 
 	| node |
 	node := Node new value: anObject.
@@ -101,13 +96,11 @@ SinglyLinkedList >> push: anObject [
 
 { #category : #removing }
 SinglyLinkedList >> remove: anObject ifAbsent: anExceptionBlock [
-	"Remove anObject from the list. If several of the elements are equal to anObject, only the first is removed.
-	If no element is equal to anObject, answer the result of evaluating anExceptionBlock.	Otherwise anObject."
 
 	| nextNode prevNode headCopy |
 	self isEmpty ifTrue: [ ^ anExceptionBlock ].
 
-	head value = anObject ifTrue: [
+	head element = anObject ifTrue: [
 		headCopy := head copy.
 		head := headCopy next.
 		self isEmpty ifTrue: [ self tail: nil ].
@@ -115,11 +108,11 @@ SinglyLinkedList >> remove: anObject ifAbsent: anExceptionBlock [
 		size := size - 1.
 		^ anObject ].
 
-	"ast least one elements"
+	"at least one element"
 	prevNode := head.
 	nextNode := head next.
 	[ nextNode ] whileNotNil: [
-		nextNode value = anObject ifTrue: [
+		nextNode element = anObject ifTrue: [
 			prevNode next: nextNode next.
 			nextNode next: nil.
 			nextNode = tail ifTrue: [ self tail: prevNode ].
@@ -133,20 +126,15 @@ SinglyLinkedList >> remove: anObject ifAbsent: anExceptionBlock [
 
 { #category : #removing }
 SinglyLinkedList >> removeLast [
-	"Removes last node of linked list and answers its value. Throws error if list is empty."
 
 	| currentNode currentValue |
-	"empty list"
 	self isEmpty ifTrue: [ ^ self errorEmptyCollection ].
-	"list of one element"
 	self isListWithOneElement ifTrue: [ ^ self pop ].
-
 	"at least two elements"
 	currentNode := head.
 	[ currentNode next == tail ] whileFalse: [
 		currentNode := currentNode next ].
-
-	currentValue := tail value.
+	currentValue := tail element.
 	tail := currentNode.
 	tail next: nil.
 	size := size - 1.
