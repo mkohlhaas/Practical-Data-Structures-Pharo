@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'left',
 		'right',
-		'contents',
+		'element',
 		'height'
 	],
 	#category : #'Practical-Data-Structures-Private'
@@ -18,7 +18,7 @@ AVLNode class >> with: anObject [
 	"Answer an instance of me containing anObject."
 
 	^ self empty
-		  contents: anObject;
+		  element: anObject;
 		  yourself
 ]
 
@@ -39,27 +39,27 @@ AVLNode >> balanceFactor [
 AVLNode >> collect: aBlock [
 
 	^ self class
-		  with: (aBlock value: self contents);
+		  with: (aBlock value: self element);
 		  left: (left collect: aBlock);
 		  right: (right collect: aBlock)
-]
-
-{ #category : #accessing }
-AVLNode >> contents [
-
-	^ contents
-]
-
-{ #category : #accessing }
-AVLNode >> contents: anObject [
-
-	contents := anObject
 ]
 
 { #category : #enumerating }
 AVLNode >> do: aBlock [
 
 	self traverseInOrder: aBlock
+]
+
+{ #category : #accessing }
+AVLNode >> element [
+
+	^ element
+]
+
+{ #category : #accessing }
+AVLNode >> element: anObject [
+
+	element := anObject
 ]
 
 { #category : #testing }
@@ -83,8 +83,8 @@ AVLNode >> height: anObject [
 { #category : #testing }
 AVLNode >> includes: anObject [
 
-	anObject = contents ifTrue: [ ^ true ].
-	anObject < contents
+	anObject = element ifTrue: [ ^ true ].
+	anObject < element
 		ifTrue: [ ^ left includes: anObject ]
 		ifFalse: [ ^ right includes: anObject ]
 ]
@@ -101,7 +101,7 @@ AVLNode >> initialize [
 { #category : #accessing }
 AVLNode >> insert: anObject [
 
-	anObject < contents
+	anObject < element
 		ifTrue: [ left := left insert: anObject ]
 		ifFalse: [ right := right insert: anObject ].
 	^ self rotateWith: anObject
@@ -124,21 +124,21 @@ AVLNode >> min [
 
 	| subTreeMin |
 	subTreeMin := left min.
-	subTreeMin ifNil: [ ^ self contents ] ifNotNil: [ ^ subTreeMin ]
+	subTreeMin ifNil: [ ^ self element ] ifNotNil: [ ^ subTreeMin ]
 ]
 
 { #category : #removing }
 AVLNode >> remove: anObject [
 
 	| minValue |
-	anObject = contents ifTrue: [
+	anObject = element ifTrue: [
 		self hasNoChildren ifTrue: [ ^ AVLLeaf ]. "no children"
 		right == AVLLeaf ifTrue: [ ^ left ]. "only right child"
 		left == AVLLeaf ifTrue: [ ^ right ]. "only left child"
 		minValue := right min. "two children"
-		self contents: minValue.
+		self element: minValue.
 		right := right remove: minValue ].
-	anObject < contents
+	anObject < element
 		ifTrue: [ ^ self left: (left remove: anObject) ]
 		ifFalse: [ ^ self right: (right remove: anObject) ].
 	self rotateWith: anObject
@@ -212,13 +212,13 @@ AVLNode >> rotateWith: anObject [
 	| bf |
 	self updateHeight.
 	bf := self balanceFactor.
-	(bf > 1 and: [ anObject < left contents ]) ifTrue: [
+	(bf > 1 and: [ anObject < left element ]) ifTrue: [
 		^ self rotateRight ].
-	(bf < -1 and: [ anObject > right contents ]) ifTrue: [
+	(bf < -1 and: [ anObject > right element ]) ifTrue: [
 		^ self rotateLeft ].
-	(bf > 1 and: [ anObject > left contents ]) ifTrue: [
+	(bf > 1 and: [ anObject > left element ]) ifTrue: [
 		^ self rotateLeftRight ].
-	(bf < -1 and: [ anObject < right contents ]) ifTrue: [
+	(bf < -1 and: [ anObject < right element ]) ifTrue: [
 		^ self rotateRightLeft ]
 ]
 
@@ -226,7 +226,7 @@ AVLNode >> rotateWith: anObject [
 AVLNode >> traverseInOrder: aBlock [
 
 	left traverseInOrder: aBlock.
-	aBlock value: contents.
+	aBlock value: element.
 	right traverseInOrder: aBlock
 ]
 
@@ -235,13 +235,13 @@ AVLNode >> traversePostOrder: aBlock [
 
 	left traversePostOrder: aBlock.
 	right traversePostOrder: aBlock.
-	aBlock value: contents
+	aBlock value: element
 ]
 
 { #category : #traversing }
 AVLNode >> traversePreOrder: aBlock [
 
-	aBlock value: contents.
+	aBlock value: element.
 	left traversePreOrder: aBlock.
 	right traversePreOrder: aBlock
 ]
