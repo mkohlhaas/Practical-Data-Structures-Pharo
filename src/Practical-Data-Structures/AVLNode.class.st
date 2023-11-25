@@ -1,5 +1,5 @@
 "
-I am a node in a tree structure.
+I am a node in an AVL Tree.
 "
 Class {
 	#name : #AVLNode,
@@ -10,7 +10,7 @@ Class {
 		'contents',
 		'height'
 	],
-	#category : #Playground
+	#category : #'Practical-Data-Structures-Private'
 }
 
 { #category : #'instance creation' }

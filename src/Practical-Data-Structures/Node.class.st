@@ -1,5 +1,5 @@
 "
-I am a simple Node.
+I am a simple Node used in SinglyLinkedList.
 "
 Class {
 	#name : #Node,

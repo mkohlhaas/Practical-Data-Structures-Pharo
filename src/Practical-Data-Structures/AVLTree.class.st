@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'tree'
 	],
-	#category : #Playground
+	#category : #'Practical-Data-Structures-Base'
 }
 
 { #category : #'instance creation' }
