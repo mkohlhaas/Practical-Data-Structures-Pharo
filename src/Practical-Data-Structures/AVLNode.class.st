@@ -50,15 +50,6 @@ AVLNode >> balanceFactor [
 ]
 
 { #category : #enumerating }
-AVLNode >> collect: aBlock [
-
-	^ self class
-		  with: (aBlock value: self element);
-		  left: (left collect: aBlock);
-		  right: (right collect: aBlock)
-]
-
-{ #category : #enumerating }
 AVLNode >> do: aBlock [
 
 	self traverseInOrder: aBlock
@@ -95,15 +86,6 @@ AVLNode >> hasNoChildren [
 AVLNode >> height [
 
 	^ height
-]
-
-{ #category : #testing }
-AVLNode >> includes: anObject [
-
-	anObject = element ifTrue: [ ^ true ].
-	anObject < element
-		ifTrue: [ ^ left includes: anObject ]
-		ifFalse: [ ^ right includes: anObject ]
 ]
 
 { #category : #initialization }

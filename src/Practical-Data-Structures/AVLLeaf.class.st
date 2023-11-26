@@ -13,12 +13,6 @@ AVLLeaf class >> balanceFactor [
 	^ 0
 ]
 
-{ #category : #enumerating }
-AVLLeaf class >> collect: aBlock [
-
-	^ self
-]
-
 { #category : #testing }
 AVLLeaf class >> hasNoChildren [
 
@@ -29,12 +23,6 @@ AVLLeaf class >> hasNoChildren [
 AVLLeaf class >> height [
 
 	^ 0
-]
-
-{ #category : #testing }
-AVLLeaf class >> includes: anObject [
-
-	^ false
 ]
 
 { #category : #accessing }

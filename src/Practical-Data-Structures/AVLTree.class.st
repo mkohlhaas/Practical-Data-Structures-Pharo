@@ -34,12 +34,6 @@ AVLTree >> height [
 	^ root height
 ]
 
-{ #category : #testing }
-AVLTree >> includes: anObject [
-
-	^ self root includes: anObject
-]
-
 { #category : #initialization }
 AVLTree >> initialize [
 
