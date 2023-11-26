@@ -5,7 +5,7 @@ Class {
 	#name : #AVLTree,
 	#superclass : #Collection,
 	#instVars : [
-		'tree'
+		'root'
 	],
 	#category : #'Practical-Data-Structures-Base'
 }
@@ -31,33 +31,33 @@ AVLTree >> do: aBlock [
 { #category : #accessing }
 AVLTree >> height [
 
-	^ tree height
+	^ root height
 ]
 
 { #category : #testing }
 AVLTree >> includes: anObject [
 
-	^ self tree includes: anObject
+	^ self root includes: anObject
 ]
 
 { #category : #initialization }
 AVLTree >> initialize [
 
 	super initialize.
-	self tree: AVLLeaf
+	self root: AVLLeaf
 ]
 
 { #category : #accessing }
 AVLTree >> insert: anObject [
 
-	self tree: (tree insert: anObject).	
+	self root: (root insert: anObject).	
 	^ anObject
 ]
 
 { #category : #removing }
 AVLTree >> remove: anObject [
 
-	self tree: (self tree remove: anObject)
+	self root: (self root remove: anObject)
 ]
 
 { #category : #removing }
@@ -66,32 +66,32 @@ AVLTree >> remove: anObject ifAbsent: aBlock [
 	^ self shouldNotImplement
 ]
 
+{ #category : #accessing }
+AVLTree >> root [
+
+	^ root
+]
+
+{ #category : #accessing }
+AVLTree >> root: aTree [
+
+	root := aTree
+]
+
 { #category : #traversing }
 AVLTree >> traverseInOrder: aBlock [
 
-	self tree traverseInOrder: aBlock
+	self root traverseInOrder: aBlock
 ]
 
 { #category : #traversing }
 AVLTree >> traversePostOrder: aBlock [
 
-	self tree traversePostOrder: aBlock
+	self root traversePostOrder: aBlock
 ]
 
 { #category : #traversing }
 AVLTree >> traversePreOrder: aBlock [
 
-	self tree traversePreOrder: aBlock
-]
-
-{ #category : #accessing }
-AVLTree >> tree [
-
-	^ tree
-]
-
-{ #category : #accessing }
-AVLTree >> tree: anObject [
-
-	tree := anObject
+	self root traversePreOrder: aBlock
 ]

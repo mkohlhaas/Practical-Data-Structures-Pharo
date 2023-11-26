@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #private }
-AVLLeaf class >> balancefactor [
+AVLLeaf class >> balanceFactor [
 
 	^ 0
 ]

@@ -29,6 +29,21 @@ AVLNode >> add: anObject [
 ]
 
 { #category : #private }
+AVLNode >> balance [
+
+	self balanceFactor = 2 ifTrue: [
+		left balanceFactor = -1
+			ifTrue: [ ^ self rotateLeftRight ]
+			ifFalse: [ ^ self rotateRight ] ].
+	self balanceFactor = -2 ifTrue: [
+		right balanceFactor = 1
+			ifTrue: [ ^ self rotateRightLeft ]
+			ifFalse: [ ^ self rotateLeft ] ].
+	self updateHeight.
+	^ self
+]
+
+{ #category : #private }
 AVLNode >> balanceFactor [
 
 	^ left height - right height
@@ -61,6 +76,15 @@ AVLNode >> element: anObject [
 	element := anObject
 ]
 
+{ #category : #private }
+AVLNode >> findMinNode [
+
+	| minNode |
+	minNode := right.
+	[ minNode left == AVLLeaf ] whileFalse: [ minNode := minNode left ].
+	^ minNode
+]
+
 { #category : #testing }
 AVLNode >> hasNoChildren [
 
@@ -71,12 +95,6 @@ AVLNode >> hasNoChildren [
 AVLNode >> height [
 
 	^ height
-]
-
-{ #category : #accessing }
-AVLNode >> height: anObject [
-
-	height := anObject
 ]
 
 { #category : #testing }
@@ -91,7 +109,6 @@ AVLNode >> includes: anObject [
 { #category : #initialization }
 AVLNode >> initialize [
 
-	super initialize.
 	left := AVLLeaf.
 	right := AVLLeaf.
 	height := 1
@@ -100,10 +117,10 @@ AVLNode >> initialize [
 { #category : #accessing }
 AVLNode >> insert: anObject [
 
-	anObject < element
-		ifTrue: [ left := left insert: anObject ]
-		ifFalse: [ right := right insert: anObject ].
-	^ self rotateWith: anObject
+	anObject = element ifTrue: [ ^ self ].
+	anObject < element ifTrue: [ left := left insert: anObject ].
+	anObject > element ifTrue: [ right := right insert: anObject ].
+	^ self balance
 ]
 
 { #category : #accessing }
@@ -118,7 +135,7 @@ AVLNode >> left: aTree [
 	left := aTree
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 AVLNode >> min [
 
 	| subTreeMin |
@@ -140,7 +157,7 @@ AVLNode >> remove: anObject [
 	anObject < element
 		ifTrue: [ ^ self left: (left remove: anObject) ]
 		ifFalse: [ ^ self right: (right remove: anObject) ].
-	self rotateWith: anObject
+	^ self balance
 ]
 
 { #category : #removing }
@@ -164,14 +181,13 @@ AVLNode >> right: aTree [
 { #category : #private }
 AVLNode >> rotateLeft [
 
-	| b y |
-	b := self right.
-	y := b left.
-	self right: y.
-	b left: self.
+	| pivot |
+	pivot := self right.
+	self right: pivot left.
+	pivot left: self.
 	self updateHeight.
-	b updateHeight.
-	^ b
+	pivot updateHeight.
+	^ pivot
 ]
 
 { #category : #private }
@@ -184,14 +200,13 @@ AVLNode >> rotateLeftRight [
 { #category : #private }
 AVLNode >> rotateRight [
 
-	| a y |
-	a := self left.
-	y := a right.
-	self left: y.
-	a right: self.
+	| pivot |
+	pivot := self left.
+	self left: pivot right.
+	pivot right: self.
 	self updateHeight.
-	a updateHeight.
-	^ a
+	pivot updateHeight.
+	^ pivot
 ]
 
 { #category : #private }
@@ -199,22 +214,6 @@ AVLNode >> rotateRightLeft [
 
 	right := right rotateRight.
 	^ self rotateLeft
-]
-
-{ #category : #private }
-AVLNode >> rotateWith: anObject [
-
-	| bf |
-	self updateHeight.
-	bf := self balanceFactor.
-	(bf > 1 and: [ anObject < left element ]) ifTrue: [
-		^ self rotateRight ].
-	(bf < -1 and: [ anObject > right element ]) ifTrue: [
-		^ self rotateLeft ].
-	(bf > 1 and: [ anObject > left element ]) ifTrue: [
-		^ self rotateLeftRight ].
-	(bf < -1 and: [ anObject < right element ]) ifTrue: [
-		^ self rotateRightLeft ]
 ]
 
 { #category : #traversing }
