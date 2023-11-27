@@ -37,7 +37,7 @@ Queue >> do: aBlock [
 { #category : #actions }
 Queue >> enqueue: anObject [
 
-	^ list add: anObject
+	^ self add: anObject
 ]
 
 { #category : #initialization }
